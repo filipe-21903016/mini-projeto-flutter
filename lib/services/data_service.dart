@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:i_que_peso/data/data_source.dart';
@@ -27,8 +29,7 @@ class DataService {
 
   static double _getNDayWeightMean(int n) {
     List<Entry> entries = _getNDaysEntries(n);
-    final mean = (entries.map((e) => e.weight).sum) / entries.length;
-    return mean.roundToDouble();
+    return (entries.map((e) => e.weight).sum) / entries.length;
   }
 
   static List<Entry> _getEntriesBetweenXAndYDays(int n1, int n2) {
@@ -62,8 +63,7 @@ class DataService {
 
   static double _getNDaysFeelMean(int n) {
     List<Entry> entries = _getNDaysEntries(n);
-    final mean = (entries.map((e) => e.feel).sum) / entries.length;
-    return mean.roundToDouble();
+    return (entries.map((e) => e.feel).sum) / entries.length;
   }
 
   static double get7DayFeelMean() {
@@ -134,4 +134,5 @@ class DataService {
             barColor: charts.ColorUtil.fromDartColor(Colors.white)))
         .toList();
   }
+
 }

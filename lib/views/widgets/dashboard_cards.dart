@@ -303,11 +303,12 @@ class GraphWidget extends StatelessWidget {
       charts.Series(
         id: "Registo (kg)",
         data: DataService.buildEntrySeriesList(),
-        domainFn: (EntrySeries series, _) => series.weight.toStringAsFixed(2),
+        domainFn: (EntrySeries series, _) => series.weight.toStringAsFixed(0),
         measureFn: (EntrySeries series, _) => series.weight,
         colorFn: (EntrySeries series, _) => series.barColor,
-      ),
+      )
     ];
+
     return charts.BarChart(
       series,
       animate: true,
@@ -318,7 +319,7 @@ class GraphWidget extends StatelessWidget {
           ),
         )
       ],
-      barGroupingType: charts.BarGroupingType.stacked,
+      barGroupingType: charts.BarGroupingType.groupedStacked,
       domainAxis: const charts.OrdinalAxisSpec(
           renderSpec: charts.SmallTickRendererSpec(
               labelStyle: charts.TextStyleSpec(
