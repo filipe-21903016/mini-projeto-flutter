@@ -20,9 +20,7 @@ class DeletedEntryState extends LoadEntriesState {}
 
 class CannotDeleteState extends LoadEntriesState {}
 
-class CannotEditState extends EntryState {
-  @override
-  List<Object?> get props => [];
+class CannotEditState extends LoadEntriesState {
 }
 
 class CanEditState extends EntryState{

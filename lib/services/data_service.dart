@@ -1,12 +1,16 @@
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter/material.dart';
 import 'package:i_que_peso/data/data_source.dart';
 import 'package:i_que_peso/models/entry.dart';
 import 'package:collection/collection.dart';
 import 'package:intl/intl.dart';
 
+import '../models/entry_series.dart';
+
 class DataService {
   static double getWeightVariationPercentage() {
-    final recentWeek = _getEntriesBetweenXAndYDays(1,7);
-    final oldWeek = _getEntriesBetweenXAndYDays(8,15);
+    final recentWeek = _getEntriesBetweenXAndYDays(1, 7);
+    final oldWeek = _getEntriesBetweenXAndYDays(8, 15);
     final mean1 = (recentWeek.map((e) => e.weight).sum / recentWeek.length);
     final mean2 = (oldWeek.map((e) => e.weight).sum / oldWeek.length);
 
@@ -33,11 +37,13 @@ class DataService {
         .where((entry) =>
             DateTime.now()
                 .difference(Entry.dateFormat.parse(entry.dateTime))
-                .inDays >= n1)
+                .inDays >=
+            n1)
         .where((entry) =>
             DateTime.now()
                 .difference(Entry.dateFormat.parse(entry.dateTime))
-                .inDays <= n2)
+                .inDays <=
+            n2)
         .toList();
     return targetEntries;
   }
@@ -109,5 +115,22 @@ class DataService {
 
   static double getLastWeight() {
     return getSortedEntries().first.weight;
+  }
+
+  static List<Entry> getLast15Entries(){
+    List<Entry> sortedEntries = getSortedEntries();
+    return sortedEntries
+        .where((element) => sortedEntries.indexOf(element) < 15).toList();
+  }
+
+  static buildEntrySeriesList() {
+    return getLast15Entries()
+        .reversed
+        .map((e) => EntrySeries(
+            weight: e.weight,
+            dateTime: DateFormat("dd/MM")
+                .format(DateFormat("dd/MM/yyyy - HH:mm").parse(e.dateTime)),
+            barColor: charts.ColorUtil.fromDartColor(Colors.white)))
+        .toList();
   }
 }

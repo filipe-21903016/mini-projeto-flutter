@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:i_que_peso/blocs/entry_bloc.dart';
+import 'package:i_que_peso/models/entry_series.dart';
 import 'package:i_que_peso/services/data_service.dart';
 
+import '../../models/entry.dart';
 import '../screens/list_screen.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class DashboardContent extends StatelessWidget {
   const DashboardContent({Key? key}) : super(key: key);
@@ -35,11 +38,19 @@ class DashboardContent extends StatelessWidget {
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.015),
         Center(
-          child: MyGradientCard(
-            //graph
-            height: MediaQuery.of(context).size.height * 0.23,
-            width: MediaQuery.of(context).size.width * 0.86,
-            child: Container(),
+          child: BlocBuilder<EntryBloc, EntryState>(
+            builder: (context, state) {
+              Widget content = Container();
+              if (state is LoadEntriesState) {
+                content = GraphWidget();
+              }
+              return MyGradientCard(
+                //graph
+                height: MediaQuery.of(context).size.height * 0.23,
+                width: MediaQuery.of(context).size.width * 0.86,
+                child: content,
+              );
+            },
           ),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.015),
@@ -112,7 +123,7 @@ class DashboardContent extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.06,
               width: getBigBoxWidth(context),
               child: InformationWidget(
-                icon: Icon(
+                icon: const Icon(
                   Icons.timeline_outlined,
                   size: 28,
                   color: Color(0XFFF4F9FF),
@@ -165,7 +176,7 @@ class PersonalInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.437,
       child: Column(
         children: [
@@ -222,7 +233,7 @@ class PercursoWidget extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       "Peso Inicial",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -232,7 +243,7 @@ class PercursoWidget extends StatelessWidget {
                     ),
                     Text(
                       "${inicialWeight.toString()}kg",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 18,
                         color: Color(0XFFF4F9FF),
@@ -245,7 +256,7 @@ class PercursoWidget extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       "Peso Atual",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -255,7 +266,7 @@ class PercursoWidget extends StatelessWidget {
                     ),
                     Text(
                       "${currentWeight.toString()}kg",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 18,
                         color: Color(0XFFF4F9FF),
@@ -282,7 +293,7 @@ class MediasWidget extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 8.0, bottom: 6.0),
             child: Icon(
               Icons.assessment_outlined,
@@ -290,7 +301,7 @@ class MediasWidget extends StatelessWidget {
               size: 65,
             ),
           ),
-          Text(
+          const Text(
             "Média 7 Dias",
             style: TextStyle(
               fontWeight: FontWeight.w500,
@@ -300,7 +311,7 @@ class MediasWidget extends StatelessWidget {
           ),
           Text(
             "${media.toString()} kg",
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w800,
               fontSize: 18,
               color: Color(0XFFF4F9FF),
@@ -349,6 +360,47 @@ class InformationWidget extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class GraphWidget extends StatelessWidget {
+  const GraphWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    List<charts.Series<EntrySeries, String>> series = [
+      charts.Series(
+        id: "Registo (kg)",
+        data: DataService.buildEntrySeriesList(),
+        domainFn: (EntrySeries series, _) => series.weight.toString(),
+        measureFn: (EntrySeries series, _) => series.weight,
+        colorFn: (EntrySeries series, _) => series.barColor,
+      ),
+    ];
+    return charts.BarChart(
+      series,
+      animate: true,
+      behaviors: [
+        charts.SeriesLegend(
+          entryTextStyle: const charts.TextStyleSpec(
+            color: charts.Color.white,
+          ),
+        )
+      ],
+      barGroupingType: charts.BarGroupingType.stacked,
+      domainAxis: const charts.OrdinalAxisSpec(
+          renderSpec: charts.SmallTickRendererSpec(
+              labelStyle: charts.TextStyleSpec(
+                  fontSize: 12, color: charts.MaterialPalette.white),
+              lineStyle: charts.LineStyleSpec(
+                  color: charts.MaterialPalette.transparent))),
+      primaryMeasureAxis: const charts.NumericAxisSpec(
+          renderSpec: charts.GridlineRendererSpec(
+              labelStyle: charts.TextStyleSpec(
+                  color: charts.MaterialPalette.transparent),
+              lineStyle: charts.LineStyleSpec(
+                  color: charts.MaterialPalette.transparent))),
     );
   }
 }

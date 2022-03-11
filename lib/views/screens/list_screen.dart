@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:i_que_peso/blocs/entry_bloc.dart';
-import 'package:i_que_peso/models/entry.dart';
-import 'package:i_que_peso/services/data_service.dart';
 import 'package:i_que_peso/views/screens/edit_entry_screen.dart';
 import 'package:i_que_peso/views/screens/entry_screen.dart';
 import 'package:i_que_peso/views/widgets/entry_card.dart';
@@ -58,7 +56,7 @@ class ListScreen extends StatelessWidget {
             if (state is EditedEntryState) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text("O seu registo foi editado com sucesso."),
+                  content: Text("O registo selecionado foi editado com sucesso."),
                   duration: Duration(seconds: 2),
                 ),
               );
@@ -66,7 +64,7 @@ class ListScreen extends StatelessWidget {
             if (state is DeletedEntryState) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text("O seu registo foi eliminado com sucesso."),
+                  content: Text("O registo selecionado foi eliminado com sucesso."),
                   duration: Duration(seconds: 2),
                 ),
               );

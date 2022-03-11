@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
 class Entry extends Equatable{
-  static final dateFormat = DateFormat("dd/MM/yyyy - kk:mm");
+  static final dateFormat = DateFormat("dd/MM/yyyy - HH:mm");
   double weight; //registered weight
   bool fed; //fed in the last 3h ?
   int feel; //between 1 and 5 how do you feel?

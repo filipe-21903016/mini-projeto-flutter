@@ -28,18 +28,6 @@ class DataSource {
     _entries.insert(0, entry);
   }
 
-  /*
-  static void removeEntry(int index) {
-    _entries.removeAt(index);
-  }
-
-  static void replaceEntry(int index, Entry newEntry) {
-    Entry entry = _entries[index];
-    String tempDate = newEntry.dateTime;
-    entry = newEntry;
-    entry.dateTime = tempDate;
-  }
-*/
   static getEntries() {
     return _entries;
   }

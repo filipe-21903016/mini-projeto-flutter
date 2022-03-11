@@ -65,12 +65,15 @@ class _EntryScreenState extends State<EntryScreen> {
                           style: TextStyle(
                               color: Color(0xFF6FB1FF),
                               fontSize: 20,
-                              fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.2,
                         child: TextField(
+                          style: const TextStyle(
+                            color: Color(0xFF6FB1FF),
+                          ),
                           controller: weightController,
                           keyboardType: TextInputType.number,
                           textAlign: TextAlign.center,
