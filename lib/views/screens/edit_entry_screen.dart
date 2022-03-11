@@ -30,7 +30,7 @@ class _EditEntryScreenState extends State<EditEntryScreen> {
     newFed = widget.entry.fed;
     newFeel = widget.entry.feel;
     observationsController.text = widget.entry.notes;
-    weightController.text = widget.entry.weight.toString();
+    weightController.text = widget.entry.weight.toStringAsFixed(2);
   }
 
   @override

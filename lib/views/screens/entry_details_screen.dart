@@ -64,7 +64,7 @@ class EntryDetailsScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "${entry.weight} kg",
+                      "${entry.weight.toStringAsFixed(2)} kg",
                       style: const TextStyle(
                           color: Color(0xFF6FB1FF),
                           fontSize: 20,

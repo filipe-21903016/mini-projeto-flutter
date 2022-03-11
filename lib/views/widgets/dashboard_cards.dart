@@ -4,9 +4,6 @@ import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:i_que_peso/blocs/entry_bloc.dart';
 import 'package:i_que_peso/models/entry_series.dart';
 import 'package:i_que_peso/services/data_service.dart';
-
-import '../../models/entry.dart';
-import '../screens/list_screen.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 class DashboardContent extends StatelessWidget {
@@ -77,14 +74,19 @@ class DashboardContent extends StatelessWidget {
             ),
             BlocBuilder<EntryBloc, EntryState>(
               builder: (context, state) {
-                double mean = 0;
+                double mean7 = 0;
+                double mean30 = 0;
                 if (state is LoadEntriesState) {
-                  mean = DataService.get7DayWeightMean();
+                  mean7 = DataService.get7DayWeightMean();
+                  mean30 = DataService.get30DayWeightMean();
                 }
                 return MyGradientCard(
                   height: MediaQuery.of(context).size.width * 0.3,
                   width: getSmallBoxWidth(context),
-                  child: MediasWidget(media: mean),
+                  child: MediasWidget(
+                    media7: mean7,
+                    media30: mean30,
+                  ),
                 );
               },
             ),
@@ -107,7 +109,7 @@ class DashboardContent extends StatelessWidget {
                   color: Color(0XFFF4F9FF),
                 ),
                 text: "Satisfação 7 Dias",
-                value: "${feelMean.toString()}",
+                value: feelMean.toStringAsFixed(2),
               ),
             );
           },
@@ -129,7 +131,7 @@ class DashboardContent extends StatelessWidget {
                   color: Color(0XFFF4F9FF),
                 ),
                 text: "Variação do Peso 7 Dias",
-                value: "${variationPerc.toString()}%",
+                value: "${variationPerc.toStringAsFixed(2)}%",
               ),
             );
           },
@@ -215,110 +217,38 @@ class PercursoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 8.0, bottom: 6.0),
-            child: Icon(
-              Icons.monitor_weight_outlined,
-              color: Color(0XFFF4F9FF),
-              size: 65,
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
-                child: Column(
-                  children: [
-                    const Text(
-                      "Peso Inicial",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13,
-                        color: Color(0XFFF4F9FF),
-                      ),
-                    ),
-                    Text(
-                      "${inicialWeight.toString()}kg",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 18,
-                        color: Color(0XFFF4F9FF),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
-                child: Column(
-                  children: [
-                    const Text(
-                      "Peso Atual",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13,
-                        color: Color(0XFFF4F9FF),
-                      ),
-                    ),
-                    Text(
-                      "${currentWeight.toString()}kg",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 18,
-                        color: Color(0XFFF4F9FF),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+    return MyBoxWidget(
+        icon: const Icon(
+          Icons.monitor_weight_outlined,
+          color: Color(0XFFF4F9FF),
+          size: 65,
+        ),
+        leftUp: "Peso Inicial",
+        rightUp: "Peso Atual",
+        leftDown: "${inicialWeight.toStringAsFixed(2)}kg",
+        rightDown: "${currentWeight.toStringAsFixed(2)}kg");
   }
 }
 
 class MediasWidget extends StatelessWidget {
-  final double media;
+  final double media7;
+  final double media30;
 
-  const MediasWidget({Key? key, required this.media}) : super(key: key);
+  const MediasWidget({Key? key, required this.media7, required this.media30})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 8.0, bottom: 6.0),
-            child: Icon(
-              Icons.assessment_outlined,
-              color: Color(0XFFF4F9FF),
-              size: 65,
-            ),
-          ),
-          const Text(
-            "Média 7 Dias",
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 13,
-              color: Color(0XFFF4F9FF),
-            ),
-          ),
-          Text(
-            "${media.toString()} kg",
-            style: const TextStyle(
-              fontWeight: FontWeight.w800,
-              fontSize: 18,
-              color: Color(0XFFF4F9FF),
-            ),
-          ),
-        ],
+    return MyBoxWidget(
+      icon: const Icon(
+        Icons.assessment_outlined,
+        color: Color(0XFFF4F9FF),
+        size: 65,
       ),
+      leftUp: "Média 7 Dias",
+      rightUp: "Média 30 Dias",
+      leftDown: "${media7.toStringAsFixed(2)}kg",
+      rightDown: "${media30.toStringAsFixed(2)}kg",
     );
   }
 }
@@ -373,7 +303,7 @@ class GraphWidget extends StatelessWidget {
       charts.Series(
         id: "Registo (kg)",
         data: DataService.buildEntrySeriesList(),
-        domainFn: (EntrySeries series, _) => series.weight.toString(),
+        domainFn: (EntrySeries series, _) => series.weight.toStringAsFixed(2),
         measureFn: (EntrySeries series, _) => series.weight,
         colorFn: (EntrySeries series, _) => series.barColor,
       ),
@@ -401,6 +331,80 @@ class GraphWidget extends StatelessWidget {
                   color: charts.MaterialPalette.transparent),
               lineStyle: charts.LineStyleSpec(
                   color: charts.MaterialPalette.transparent))),
+    );
+  }
+}
+
+class MyBoxWidget extends StatelessWidget {
+  final Icon icon;
+  final String leftUp, rightUp;
+  final String leftDown, rightDown;
+
+  const MyBoxWidget(
+      {Key? key,
+      required this.icon,
+      required this.leftUp,
+      required this.rightUp,
+      required this.leftDown,
+      required this.rightDown})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
+            child: icon,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    leftUp,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                      color: Color(0XFFF4F9FF),
+                    ),
+                  ),
+                  Text(
+                    leftDown,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 18,
+                      color: Color(0XFFF4F9FF),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    rightUp,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                      color: Color(0XFFF4F9FF),
+                    ),
+                  ),
+                  Text(
+                    rightDown,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 18,
+                      color: Color(0XFFF4F9FF),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

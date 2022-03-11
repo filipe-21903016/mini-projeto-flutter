@@ -117,10 +117,11 @@ class DataService {
     return getSortedEntries().first.weight;
   }
 
-  static List<Entry> getLast15Entries(){
+  static List<Entry> getLast15Entries() {
     List<Entry> sortedEntries = getSortedEntries();
     return sortedEntries
-        .where((element) => sortedEntries.indexOf(element) < 15).toList();
+        .where((element) => sortedEntries.indexOf(element) < 15)
+        .toList();
   }
 
   static buildEntrySeriesList() {

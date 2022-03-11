@@ -64,7 +64,7 @@ class EntryCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      "${entry.weight.toString()} kg",
+                      "${entry.weight.toStringAsFixed(2)} kg",
                       style: const TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 30,
