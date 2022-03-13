@@ -12,6 +12,7 @@ Por fazer o armazenamento de registos de maneira não persistente a aplicação 
 | Editar registo de peso | Sim |
 | Consultar detalhes de registo | Sim |
 | Eliminar registos | Sim |
+| Swipe para eliminar registo | Sim |
 | Dashboard | Sim |
 | Gráfico Dashboard | Sim |
 | Testes Unitários | |
