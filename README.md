@@ -4,6 +4,18 @@ Este projeto foi realizado para a UC de Computação Móvel.
 Consiste numa aplicação simples para registo de pesos.
 Por fazer o armazenamento de registos de maneira não persistente a aplicação traz alguns registos "dummy".
 
+# Funcionalidades
+| Funcionalidades | Implementado ?|
+| --- | --- |
+| Criar registos de peso | Sim |
+| Listar registos de peso | Sim |
+| Editar registo de peso | Sim |
+| Consultar detalhes de registo | Sim |
+| Eliminar registos | Sim |
+| Dashboard | Sim |
+| Gráfico Dashboard | Sim |
+| Testes Unitários | |
+
 # Screenshots
 A aplicação consiste em 4 simples páginas que podemos ver em baixo.
 
@@ -16,7 +28,7 @@ A aplicação consiste em 4 simples páginas que podemos ver em baixo.
 ## Ecrã de Detalhes
 ![Alt text](screenshots/ecra_detalhes.png?raw=true "Detalhes Registo")
 
-# Funcionalidades
+
 
 ## Créditos
 Filipe Coutinho , 21903016
