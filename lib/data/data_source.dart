@@ -34,13 +34,6 @@ class DataSource {
     return _entries;
   }
 
-  static getNLastEntries(int n) {
-    if (_entries.length >= n) {
-      return _entries.sublist(_entries.length - n, _entries.length);
-    }
-    return _entries;
-  }
-
   static remove(Entry entry) {
     _entries.remove(entry);
   }
