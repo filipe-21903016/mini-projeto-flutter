@@ -10,6 +10,8 @@ Por fazer o armazenamento de registos de maneira não persistente a aplicação 
 | Criar registos de peso | Sim |
 | Listar registos de peso | Sim |
 | Editar registo de peso | Sim |
+| Mensagens de edição, criação e novo registo | Sim |
+| Mensagens de erro ao editar e eliminar | Sim |
 | Consultar detalhes de registo | Sim |
 | Eliminar registos | Sim |
 | Swipe para eliminar registo | Sim |
