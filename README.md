@@ -8,7 +8,7 @@ Por fazer o armazenamento de registos de maneira não persistente a aplicação 
 A aplicação consiste em 4 simples páginas que podemos ver em baixo.
 
 ## Dashboard
-![](screenshots/dashboard.png?raw=true =250x)
+![](screenshots/dashboard.png =250x)
 ## Lista de Pesos Registados
 ## Ecrã de Edição de Registo
 ## Ecrã de Detalhes
