@@ -37,4 +37,9 @@ class DataSource {
   static remove(Entry entry) {
     _entries.remove(entry);
   }
+
+  static setEntries(List<Entry> entries){
+    _entries.removeRange(0, _entries.length);
+    _entries.addAll(entries);
+  }
 }

@@ -11,26 +11,26 @@ import '../models/entry_series.dart';
 
 class DataService {
   static double getWeightVariationPercentage() {
-    final recentWeek = _getEntriesBetweenXAndYDays(1, 7);
+    final recentWeek = _getEntriesBetweenXAndYDays(0, 7);
     final oldWeek = _getEntriesBetweenXAndYDays(8, 15);
     final mean1 = (recentWeek.map((e) => e.weight).sum / recentWeek.length);
     final mean2 = (oldWeek.map((e) => e.weight).sum / oldWeek.length);
 
-    return ((mean2 - mean1) * 100 / mean1).roundToDouble();
+    return (mean2 - mean1) * 100 / mean1;
   }
 
   static double get7DayWeightMean() {
     return _getNDayWeightMean(7);
-  }
+  } //tested
 
   static double get30DayWeightMean() {
     return _getNDayWeightMean(30);
-  }
+  } //tested
 
   static double _getNDayWeightMean(int n) {
     List<Entry> entries = _getNDaysEntries(n);
     return (entries.map((e) => e.weight).sum) / entries.length;
-  }
+  } //tested
 
   static List<Entry> _getEntriesBetweenXAndYDays(int n1, int n2) {
     List<Entry> allEntries = DataSource.getEntries();
@@ -59,20 +59,20 @@ class DataService {
             n)
         .toList();
     return targetEntries;
-  }
+  } //tested
 
   static double _getNDaysFeelMean(int n) {
     List<Entry> entries = _getNDaysEntries(n);
     return (entries.map((e) => e.feel).sum) / entries.length;
-  }
+  } //tested
 
   static double get7DayFeelMean() {
     return _getNDaysFeelMean(7);
-  }
+  } //tested
 
   static List<Entry> getEntries() {
     return DataSource.getEntries();
-  }
+  } //tested
 
   static List<Entry> getSortedEntries() {
     DateFormat format = Entry.dateFormat;
@@ -80,11 +80,11 @@ class DataService {
     final sortedEntries = entries.sorted(
         (a, b) => format.parse(b.dateTime).compareTo(format.parse(a.dateTime)));
     return sortedEntries;
-  }
+  } //tested
 
-  static void addEntry(Entry entry) => DataSource.addEntry(entry);
+  static void addEntry(Entry entry) => DataSource.addEntry(entry); //tested
 
-  static void deleteEntry(Entry entry) => DataSource.remove(entry);
+  static void deleteEntry(Entry entry) => DataSource.remove(entry); //tested
 
   static bool verifyEntryFields(
       String weight, int feel, bool fed, String observations) {
@@ -134,5 +134,4 @@ class DataService {
             barColor: charts.ColorUtil.fromDartColor(Colors.white)))
         .toList();
   }
-
 }
