@@ -35,3 +35,5 @@ A aplicação consiste em 4 simples páginas que podemos ver em baixo.
 
 ## Créditos
 Filipe Coutinho , 21903016
+### Previsão de Nota
+16
