@@ -17,7 +17,7 @@ Por fazer o armazenamento de registos de maneira não persistente a aplicação 
 | Swipe para eliminar registo | Sim |
 | Dashboard | Sim |
 | Gráfico Dashboard | Sim |
-| Testes Unitários | |
+| Testes Unitários | Sim |
 
 # Screenshots
 A aplicação consiste em 4 simples páginas que podemos ver em baixo.
